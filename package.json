@@ -1,0 +1,25 @@
+{
+  "name": "loyola-ems-backend",
+  "version": "1.0.0",
+  "description": "Backend authentication and management server for Loyola EMS",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.10.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.1",
+    "multer": "^2.2.0",
+    "razorpay": "^2.9.6"
+  }
+}
