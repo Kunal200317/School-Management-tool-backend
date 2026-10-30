@@ -4,11 +4,11 @@ import jwt from 'jsonwebtoken';
 export const protect = async (req, res, next) => {
   let token;
 
-  // Extract token from cookie first, fallback to Authorization header
-  if (req.cookies && req.cookies.token) {
-    token = req.cookies.token;
-  } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+  // Extract token from Authorization header first, fallback to cookie
+  if (req.headers.authorization && req.headers.authorization.toLowerCase().startsWith('bearer')) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies && req.cookies.token) {
+    token = req.cookies.token;
   }
 
   if (!token) {

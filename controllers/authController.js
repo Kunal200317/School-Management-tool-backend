@@ -16,7 +16,7 @@ const generateToken = (id, role) => {
 
 // Helper to send HTTP-Only secure cookie
 const sendTokenCookie = (res, token) => {
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction = process.env.NODE_ENV === 'production' || !!process.env.RENDER || !!process.env.VERCEL;
   res.cookie('token', token, {
     httpOnly: true,
     secure: isProduction,
@@ -270,7 +270,7 @@ export const createAdmin = async (req, res) => {
 // @access  Public
 export const logoutUser = async (req, res) => {
   try {
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction = process.env.NODE_ENV === 'production' || !!process.env.RENDER || !!process.env.VERCEL;
     res.cookie('token', '', {
       httpOnly: true,
       expires: new Date(0),

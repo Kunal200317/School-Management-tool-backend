@@ -36,8 +36,14 @@ app.use(cors({
 
     const cleanOrigin = origin.replace(/\/$/, '');
 
-    // Allow if origin is in .env CLIENT_URL or is local/LAN development IP
+    // Allow if origin is in .env CLIENT_URL or is cloud deploy or local/LAN development IP
     const isAllowedFromEnv = allowedOrigins.includes(cleanOrigin);
+    const isCloudDeploy =
+      cleanOrigin.endsWith('.vercel.app') ||
+      cleanOrigin.endsWith('.netlify.app') ||
+      cleanOrigin.endsWith('.pages.dev') ||
+      cleanOrigin.endsWith('.onrender.com');
+
     const isLocalOrLAN =
       cleanOrigin.startsWith('http://localhost') ||
       cleanOrigin.startsWith('http://127.0.0.1') ||
@@ -45,14 +51,16 @@ app.use(cors({
       cleanOrigin.match(/^http:\/\/10\.\d+\.\d+\.\d+/) ||
       cleanOrigin.match(/^http:\/\/172\.(1[6-9]|2\d|3[01])\.\d+\.\d+/);
 
-    if (isAllowedFromEnv || isLocalOrLAN) {
+    if (isAllowedFromEnv || isCloudDeploy || isLocalOrLAN) {
       callback(null, true);
     } else {
       console.log(`[CORS REJECTED] origin: "${origin}"`);
       callback(new Error(`Not allowed by CORS: ${origin}`));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
 
 // _______________________this is only for mobile view____________________________________
